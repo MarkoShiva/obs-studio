@@ -24,10 +24,7 @@ def main():
         print(f'Failed to write validation output to file: {e}')
         return 1
 
-    if errors:
-        return 1
-
-    return 0
+    return 1 if errors else 0
 
 
 def prep(filename):
@@ -69,7 +66,7 @@ def validate(filename, json_data, json_string, schema):
     for e in sorted(cls.iter_errors(json_data), key=str):
         print(f'{e}\nIn "{filename}"\n\n')
         errorPath = '/'.join(str(v) for v in e.absolute_path)
-        errorEntry = servicesPaths['/' + errorPath]
+        errorEntry = servicesPaths[f'/{errorPath}']
         errors.append({
             "file": filename,
             "start_line": errorEntry.value_start.line + 1,
